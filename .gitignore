@@ -1,0 +1,24 @@
+# Data - regenerate with download_datasets.py + preprocess.py
+data/raw/
+data/processed/
+data/manifest.csv
+data/failed_files.csv
+
+# Python
+__pycache__/
+*.pyc
+*.npy
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model checkpoints
+*.h5
+*.keras
+*.ckpt
+*.pb
+saved_model/
