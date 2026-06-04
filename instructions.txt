@@ -1,0 +1,20 @@
+## How to get the data onto your machine
+
+### 1. Clone the repo
+git clone <repo-url>
+cd GunshotDetector
+
+### 2. Install dependencies
+pip install kagglehub librosa numpy pandas tqdm tensorflow
+
+### 3. Get your Kaggle API key
+- Go to kaggle.com → Profile → Settings → Create Legacy API → should download a kaggle json
+- Place kaggle.json in C:\Users\YourName\.kaggle\ (Windows) or ~/.config/kaggle/ (Mac/Linux)
+
+### 4. Download the datasets (~5GB, takes a while)
+python download_datasets.py
+
+### 5. Generate spectrograms (~10 mins)
+python scripts/preprocess.py
+
+### 6. Done — data/manifest.csv and data/processed/spectrograms/ are ready
