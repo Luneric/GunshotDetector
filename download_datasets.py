@@ -19,16 +19,22 @@ DATASETS = [
         "handle": "mmoreaux/environmental-sound-classification-50",
         "dest": "data/raw/non_gunshot"
     },
+    {
+        "handle": "chrisfilo/urbansound8k",
+        "dest": "data/raw/urban_sound"
+    },
 ]
 
 for ds in DATASETS:
+    dest = Path(ds["dest"])
+    
+    if dest.exists():
+        print(f"Skipping {ds['handle']} — already exists at {dest}")
+        continue
+    
     print(f"\nDownloading {ds['handle']}...")
     path = kagglehub.dataset_download(ds["handle"])
-    print(f"Downloaded to cache: {path}")
     
-    dest = Path(ds["dest"])
-    if dest.exists():
-        shutil.rmtree(dest)
     shutil.copytree(path, dest)
     print(f"Copied to: {dest}")
 
