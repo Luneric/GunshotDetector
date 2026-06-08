@@ -11,6 +11,7 @@ DATASETS = {
     "clean_noisy":  {"path": "data/raw/clean_noisy",         "source": "clean_noisy"},
     "emrah":        {"path": "data/raw/emrah_gunshot",       "source": "emrah"},
     "non_gunshot":  {"path": "data/raw/non_gunshot/audio/audio", "source": "non_gunshot"},
+    "urban_sound": {"path": "data/raw/urban_sound", "source": "urban_sound"},
 }
 
 OUT_DIR = "data/processed/spectrograms"
@@ -48,11 +49,21 @@ def label_non_gunshot(filepath: Path) -> dict:
     # ESC-50: last number in filename is category, all are non-gunshot
     return {"label": "no_gunshot", "gun_type": "none"}
 
+def label_urban_sound(filepath: Path) -> dict:
+    # filename format: [fsID]-[classID]-[occurrenceID]-[sliceID].wav
+    # class 6 = gun_shot
+    parts = filepath.stem.split("-")
+    class_id = int(parts[1])
+    if class_id == 6:
+        return {"label": "gunshot", "gun_type": "urban_gunshot"}
+    return {"label": "no_gunshot", "gun_type": "none"}
+
 LABELERS = {
     "firearms_58": label_firearms_58,
     "clean_noisy":  label_clean_noisy,
     "emrah":        label_emrah,
     "non_gunshot":  label_non_gunshot,
+    "urban_sound": label_urban_sound,
 }
 
 # -------------------------------------------------------
