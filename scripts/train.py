@@ -140,7 +140,7 @@ model.summary()
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=LR),
-    loss=tf.keras.losses.BinaryCrossentropy(label_smoothing=0.1),
+    loss="binary_crossentropy",
     metrics=[
         "accuracy",
         tf.keras.metrics.Precision(name="precision"),
