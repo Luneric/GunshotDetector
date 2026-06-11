@@ -15,9 +15,9 @@ MANIFEST_PATH = "data/manifest.csv"
 MODEL_OUT      = "models/stage1_gunshot_detector.keras"
 LOGS_DIR       = "models/logs"
 
-BATCH_SIZE  = 128
-EPOCHS      = 30
-LR          = 1e-3
+BATCH_SIZE  = 256
+EPOCHS      = 50
+LR          = 3e-4
 VAL_SPLIT   = 0.15
 TEST_SPLIT  = 0.15
 RANDOM_SEED = 42
@@ -140,7 +140,7 @@ model.summary()
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=LR),
-    loss="binary_crossentropy",
+    loss=tf.keras.losses.BinaryCrossentropy(label_smoothing=0.1),
     metrics=[
         "accuracy",
         tf.keras.metrics.Precision(name="precision"),
@@ -170,10 +170,14 @@ callbacks = [
     ),
     tf.keras.callbacks.ReduceLROnPlateau(
         monitor="val_loss",
-        factor=0.5,
-        patience=3,
-        min_lr=1e-6,
+        factor=0.3,
+        patience=2,
+        min_lr=1e-7,
         verbose=1
+    ),
+    tf.keras.callbacks.LearningRateScheduler(
+        lambda epoch, lr: 3e-5 + (3e-4 - 3e-5) * min(1.0, epoch / 5) if epoch < 5 else lr,
+        verbose=0
     ),
     tf.keras.callbacks.TensorBoard(log_dir=LOGS_DIR),
 ]
