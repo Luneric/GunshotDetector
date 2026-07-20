@@ -18,7 +18,7 @@ Thumbs.db
 
 # Model checkpoints
 *.h5
-*.keras
+# *.keras
 *.ckpt
 *.pb
 saved_model/
